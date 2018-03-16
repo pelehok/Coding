@@ -15,14 +15,35 @@ namespace CeazarCode
             'Б','В','Г','Ґ','Д','Е','Є','Ж','З','И','І','Ї','Й','К',
             'Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш',
             'Щ','Ь','Ю','Я' };
-        public static int length = 66;
+
+        private static List<char> UALoudLetter = new List<char>()
+            { 'о','а','и', 'і', 'у' };
+
+        public static int loudLetterLenght = UALoudLetter.Count;
+
+        public static int alfavitLength = UAAlfavit.Count;
+
         public static int GetNumber(char inputChar)
         {
             return UAAlfavit.IndexOf(inputChar);
         }
+
         public static Char GetChar(int inputInt)
         {
             return UAAlfavit[inputInt];
         }
+
+        public static char GetLoudLetter(int inputNumber)
+        {
+            return UALoudLetter[inputNumber];
+        }
+
+        public static int getNumBetweenLetter(char letterFirst, char letterSecond)
+        {
+            int numFirstLetter = GetNumber(letterFirst);
+            int numSecondLetter = GetNumber(letterSecond);
+            return numFirstLetter - numSecondLetter;
+        }
+
     }
 }

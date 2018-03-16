@@ -11,7 +11,7 @@ namespace CeazarCode
         ENCODING, DECODING
     };
     class CeazarCode
-    { 
+    {
         public string EncodingUK(string _inputText, int _key)
         {
             string outputString = "";
@@ -48,7 +48,7 @@ namespace CeazarCode
             return outputString;
         }
 
-        public StringBuilder EncodingUA(StringBuilder _inputText,int _key)
+        public StringBuilder EncodingUA(StringBuilder _inputText, int _key)
         {
             return MoveString(_inputText, _key, TypeCoding.ENCODING);
         }
@@ -58,12 +58,12 @@ namespace CeazarCode
             return MoveString(_inputText, _key, TypeCoding.DECODING);
         }
 
-        private StringBuilder MoveString(StringBuilder _inputSrting, int _key,TypeCoding typeCoding)
+        private StringBuilder MoveString(StringBuilder _inputSrting, int _key, TypeCoding typeCoding)
         {
             StringBuilder outputString = new StringBuilder();
 
             int tempKey = _key;
-            if(typeCoding == TypeCoding.DECODING)
+            if (typeCoding == TypeCoding.DECODING)
             {
                 tempKey = -_key;
             }
@@ -84,17 +84,17 @@ namespace CeazarCode
                         {
                             if (typeCoding == TypeCoding.DECODING)
                             {
-                                outputString.Append(CharUA.GetChar(CharUA.length + tempKey));
+                                outputString.Append(CharUA.GetChar(CharUA.alfavitLength + tempKey));
                             }
                             else
                             {
-                                outputString.Append(CharUA.GetChar(CharUA.length - tempKey));
+                                outputString.Append(CharUA.GetChar(CharUA.alfavitLength - tempKey));
                             }
                         }
                     }
                     else
                     {
-                        outputString = new StringBuilder("Error with letter "+ _inputSrting[i]);
+                        outputString = new StringBuilder("Error with letter " + _inputSrting[i]);
                         break;
                     }
                 }
@@ -107,7 +107,7 @@ namespace CeazarCode
             if (numberLetter != -1)
             {
                 return true;
-            }else
+            } else
             {
                 return false;
             }
@@ -115,7 +115,7 @@ namespace CeazarCode
 
         private bool IsCorrectNumber(int number)
         {
-            if(0 <= number && number < CharUA.length)
+            if (0 <= number && number < CharUA.alfavitLength)
             {
                 return true;
             }
@@ -127,7 +127,62 @@ namespace CeazarCode
 
         public StringBuilder DecodingWithoutKey(StringBuilder _inputString)
         {
+            StringBuilder res = new StringBuilder();
 
+            char offerLetter = TextAnalysis.GetOffenLetter(_inputString);
+            for (int i = 0; i < 5; i++)
+            {
+                int numbetween = CharUA.getNumBetweenLetter(offerLetter, CharUA.GetLoudLetter(i));
+                StringBuilder tempResult = DecodingUA(_inputString, numbetween);
+                StringBuilder partText = GetFirstTenLetter(tempResult);
+                if (CorrectText(partText))
+                {
+                    return tempResult;
+                }
+            }
+
+
+            return res;
         }
+        private bool CorrectText(StringBuilder _inputString)
+        {
+            int i = 0;
+            Console.WriteLine(_inputString);
+            Console.WriteLine("Цей текст можна вважати коректним?");
+            Console.WriteLine("1:Yes");
+            Console.WriteLine("2:No");
+            while (true)
+            {
+                try
+                {
+                    int number = Int32.Parse(Console.ReadLine());
+                    if (number == 1)
+                    {
+                        return true;
+                    }else if(number == 2)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        new Exception();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Некоректне введення!!!");
+                    i++;
+                    if (i == 5)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        private static StringBuilder GetFirstTenLetter(StringBuilder _inputLetter)
+        {
+            StringBuilder tempInputString = new StringBuilder(_inputLetter.ToString());
+            return tempInputString.Remove(10, tempInputString.Length-10);
+        } 
     }
 }

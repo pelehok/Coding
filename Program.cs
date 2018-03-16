@@ -12,8 +12,15 @@ namespace CeazarCode
         {
             CeazarCode ceazarCode = new CeazarCode();
             StringBuilder textReadFile = HelperData.ReadFile(@"../../Text.txt");
-            HelperData.WriteConsole(textReadFile);
+
             StringBuilder res = ceazarCode.EncodingUA(textReadFile, 3);
+
+            Console.WriteLine(ceazarCode.DecodingWithoutKey(res));
+
+            Console.ReadKey();
+
+
+
             Console.WriteLine(res);
 
             Console.WriteLine(ceazarCode.DecodingUA(res,3));
