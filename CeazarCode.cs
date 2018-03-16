@@ -11,124 +11,68 @@ namespace CeazarCode
         ENCODING, DECODING
     };
     class CeazarCode
-    {
-        public int Key { get; set; }
-
-        public CeazarCode(int _key)
-        {
-            Key = _key;
-        }
-
-        public string EncodingUK(string inputText)
+    { 
+        public string EncodingUK(string _inputText, int _key)
         {
             string outputString = "";
-            for (int i = 0; i < inputText.Length; i++)
+            for (int i = 0; i < _inputText.Length; i++)
             {
-                if (Char.IsLetter(inputText[i]))
+                if (Char.IsLetter(_inputText[i]))
                 {
-                    int temp = (int)inputText[i] + Key;
+                    int temp = (int)_inputText[i] + _key;
                     outputString += (char)(temp);
                 }
                 else
                 {
-                    outputString += inputText[i];
+                    outputString += _inputText[i];
                 }
             }
             return outputString;
         }
 
-        public string DecodingUK(string inputText)
+        public string DecodingUK(string _inputText, int _key)
         {
             string outputString = "";
-            for (int i = 0; i < inputText.Length; i++)
+            for (int i = 0; i < _inputText.Length; i++)
             {
-                if (Char.IsLetter(inputText[i]))
+                if (Char.IsLetter(_inputText[i]))
                 {
-                    int temp = (int)inputText[i] - Key;
+                    int temp = (int)_inputText[i] - _key;
                     outputString += (char)(temp);
                 }
                 else
                 {
-                    outputString += inputText[i];
+                    outputString += _inputText[i];
                 }
             }
             return outputString;
         }
 
-        public StringBuilder EncodingUA(StringBuilder inputText)
+        public StringBuilder EncodingUA(StringBuilder _inputText,int _key)
         {
-            StringBuilder outputString = new StringBuilder();
-            for (int i = 0; i < inputText.Length; i++)
-            {
-                if (Char.IsLetter(inputText[i]))
-                {
-                    int temp = CharUA.GetNumber(inputText[i]);
-                    if (temp != -1)
-                    {
-                        temp += Key;
-                        if (temp < CharUA.length)
-                        {
-                            outputString.Append(CharUA.GetChar(temp));
-                        }
-                        else
-                        {
-                            outputString.Append(CharUA.GetChar(CharUA.length - temp));
-                        }
-                    }
-                    else
-                    {
-                        outputString = new StringBuilder("Error");
-                        break;
-                    }
-                }
-            }
-            return outputString;
+            return MoveString(_inputText, _key, TypeCoding.ENCODING);
         }
 
-        public StringBuilder DecodingUA(StringBuilder inputText)
+        public StringBuilder DecodingUA(StringBuilder _inputText, int _key)
         {
-            StringBuilder outputString = new StringBuilder();
-            for (int i = 0; i < inputText.Length; i++)
-            {
-                if (Char.IsLetter(inputText[i]))
-                {
-                    int temp = CharUA.GetNumber(inputText[i]);
-                    if (temp != -1)
-                    {
-
-                        temp -= Key;
-                        if (temp >= 0)
-                        {
-                            outputString.Append(CharUA.GetChar(temp));
-                        }
-                        else
-                        {
-                            outputString.Append(CharUA.GetChar(CharUA.length + temp));
-                        }
-                    }
-                    else
-                    {
-                        outputString.Append(inputText[i]);
-                    }
-                }
-            }
-            return outputString;
+            return MoveString(_inputText, _key, TypeCoding.DECODING);
         }
-        private StringBuilder MoveString(StringBuilder _inputSting, int _key,TypeCoding typeCoding)
+
+        private StringBuilder MoveString(StringBuilder _inputSrting, int _key,TypeCoding typeCoding)
         {
             StringBuilder outputString = new StringBuilder();
 
             int tempKey = _key;
             if(typeCoding == TypeCoding.DECODING)
             {
-                tempKey = -tempKey;
+                tempKey = -_key;
             }
 
-            for (int i = 0; i < _inputSting.Length; i++)
+            for (int i = 0; i < _inputSrting.Length; i++)
             {
-                if (Char.IsLetter(_inputSting[i]))
+                if (Char.IsLetter(_inputSrting[i]))
                 {
-                    int temp = CharUA.GetNumber(_inputSting[i]);
+                    int temp = CharUA.GetNumber(_inputSrting[i]);
                     if (IsExist(temp))
                     {
                         temp += tempKey;
@@ -138,17 +82,26 @@ namespace CeazarCode
                         }
                         else
                         {
-                            outputString.Append(CharUA.GetChar(CharUA.length - tempKey));
+                            if (typeCoding == TypeCoding.DECODING)
+                            {
+                                outputString.Append(CharUA.GetChar(CharUA.length + tempKey));
+                            }
+                            else
+                            {
+                                outputString.Append(CharUA.GetChar(CharUA.length - tempKey));
+                            }
                         }
                     }
                     else
                     {
-                        outputString.Append(_inputSting[i]);
+                        outputString = new StringBuilder("Error with letter "+ _inputSrting[i]);
+                        break;
                     }
                 }
             }
             return outputString;
         }
+
         private bool IsExist(int numberLetter)
         {
             if (numberLetter != -1)
@@ -159,9 +112,10 @@ namespace CeazarCode
                 return false;
             }
         }
+
         private bool IsCorrectNumber(int number)
         {
-            if(0 <= number && number > CharUA.length)
+            if(0 <= number && number < CharUA.length)
             {
                 return true;
             }
@@ -169,6 +123,11 @@ namespace CeazarCode
             {
                 return false;
             }
+        }
+
+        public StringBuilder DecodingWithoutKey(StringBuilder _inputString)
+        {
+
         }
     }
 }
