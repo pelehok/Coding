@@ -1,0 +1,7 @@
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\bin\Debug\CeazarCode.exe.config
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\bin\Debug\CeazarCode.exe
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\bin\Debug\CeazarCode.pdb
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\obj\Debug\CeazarCode.csprojResolveAssemblyReference.cache
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\obj\Debug\CeazarCode.csproj.CoreCompileInputs.cache
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\obj\Debug\CeazarCode.exe
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\obj\Debug\CeazarCode.pdb
