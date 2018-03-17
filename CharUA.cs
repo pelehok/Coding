@@ -42,7 +42,7 @@ namespace CeazarCode
         {
             int numFirstLetter = GetNumber(letterFirst);
             int numSecondLetter = GetNumber(letterSecond);
-            return numFirstLetter - numSecondLetter;
+            return Math.Abs(numFirstLetter - numSecondLetter);
         }
 
     }

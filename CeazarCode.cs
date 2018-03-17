@@ -12,6 +12,11 @@ namespace CeazarCode
     };
     class CeazarCode
     {
+        private const string messageError = "Некоректне введення!!!";
+        private const string messageErrorLetter = "Error with letter ";
+        private const string messageIsCorrect = "Цей текст можна вважати коректним?";
+        private const string messageYes = "1:Yes";
+        private const string messageNo = "2:No";
         public string EncodingUK(string _inputText, int _key)
         {
             string outputString = "";
@@ -113,7 +118,7 @@ namespace CeazarCode
                     }
                     else
                     {
-                        outputString = new StringBuilder("Error with letter " + _inputSrting[i]);
+                        outputString = new StringBuilder(messageErrorLetter + _inputSrting[i]);
                         return null;
                     }
                 }
@@ -148,9 +153,9 @@ namespace CeazarCode
         {
             int i = 0;
             Console.WriteLine(_inputString);
-            Console.WriteLine("Цей текст можна вважати коректним?");
-            Console.WriteLine("1:Yes");
-            Console.WriteLine("2:No");
+            Console.WriteLine(messageIsCorrect);
+            Console.WriteLine(messageYes);
+            Console.WriteLine(messageNo);
             while (true)
             {
                 try
@@ -170,7 +175,7 @@ namespace CeazarCode
                 }
                 catch
                 {
-                    Console.WriteLine("Некоректне введення!!!");
+                    Console.WriteLine(messageError);
                     i++;
                     if (i == 5)
                     {

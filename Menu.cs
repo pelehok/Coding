@@ -79,7 +79,7 @@ namespace CeazarCode
                         throw new Exception();
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     Console.WriteLine(messageError);
                 }
@@ -218,7 +218,7 @@ namespace CeazarCode
                         throw new Exception();
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     Console.WriteLine(messageError);
                 }
@@ -278,24 +278,31 @@ namespace CeazarCode
                     int number = Int32.Parse(Console.ReadLine());
                     if (IsCorrect(number, ITEMS_MENU_WRITE_TEXT.Length))
                     {
+                        bool isExit = false;
                         switch (number)
                         {
                             case 1:
                                 WriteFileItem(_inputText);
+                                isExit = true;
                                 break;
                             case 2:
                                 HelperData.WriteConsole(_inputText);
                                 break;
-                            case 3: break;
+                            case 3:
+                                isExit = true;
+                                break;
                         }
-                        break;
+                        if (isExit)
+                        {
+                            break;
+                        }
                     }
                     else
                     {
                         throw new Exception();
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     Console.WriteLine(messageError);
                 }
