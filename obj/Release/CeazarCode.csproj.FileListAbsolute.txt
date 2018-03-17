@@ -1,0 +1,6 @@
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\bin\Release\CeazarCode.exe.config
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\bin\Release\CeazarCode.exe
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\bin\Release\CeazarCode.pdb
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\obj\Release\CeazarCode.csproj.CoreCompileInputs.cache
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\obj\Release\CeazarCode.exe
+C:\Users\peleh\source\repos\CeazarCode\CeazarCode\obj\Release\CeazarCode.pdb

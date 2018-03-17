@@ -58,6 +58,25 @@ namespace CeazarCode
             return MoveString(_inputText, _key, TypeCoding.DECODING);
         }
 
+        public StringBuilder DecodingWithoutKey(StringBuilder _inputString)
+        {
+            StringBuilder res = null;
+
+            char offerLetter = TextAnalysis.GetOffenLetter(_inputString);
+            for (int i = 0; i < 5; i++)
+            {
+                int numbetween = CharUA.getNumBetweenLetter(offerLetter, CharUA.GetLoudLetter(i));
+                StringBuilder tempResult = DecodingUA(_inputString, numbetween);
+                StringBuilder partText = GetFirstTenLetter(tempResult);
+                if (CorrectText(partText))
+                {
+                    return tempResult;
+                }
+            }
+
+            return res;
+        }
+
         private StringBuilder MoveString(StringBuilder _inputSrting, int _key, TypeCoding typeCoding)
         {
             StringBuilder outputString = new StringBuilder();
@@ -95,7 +114,7 @@ namespace CeazarCode
                     else
                     {
                         outputString = new StringBuilder("Error with letter " + _inputSrting[i]);
-                        break;
+                        return null;
                     }
                 }
             }
@@ -125,25 +144,6 @@ namespace CeazarCode
             }
         }
 
-        public StringBuilder DecodingWithoutKey(StringBuilder _inputString)
-        {
-            StringBuilder res = new StringBuilder();
-
-            char offerLetter = TextAnalysis.GetOffenLetter(_inputString);
-            for (int i = 0; i < 5; i++)
-            {
-                int numbetween = CharUA.getNumBetweenLetter(offerLetter, CharUA.GetLoudLetter(i));
-                StringBuilder tempResult = DecodingUA(_inputString, numbetween);
-                StringBuilder partText = GetFirstTenLetter(tempResult);
-                if (CorrectText(partText))
-                {
-                    return tempResult;
-                }
-            }
-
-
-            return res;
-        }
         private bool CorrectText(StringBuilder _inputString)
         {
             int i = 0;
@@ -179,6 +179,7 @@ namespace CeazarCode
                 }
             }
         }
+
         private static StringBuilder GetFirstTenLetter(StringBuilder _inputLetter)
         {
             StringBuilder tempInputString = new StringBuilder(_inputLetter.ToString());

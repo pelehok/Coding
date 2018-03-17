@@ -8,6 +8,11 @@ namespace CeazarCode
 {
     static class HelperData
     {
+        private const string message = "*******************************************";
+        private const string messageError = "Некоректне введення!!!";
+        private const string messageEnterText = "Введiть текст!!!";
+        private const string messageHowLine = "Скiльки рядкiв тексту ви хочете ввести?";
+
         public static StringBuilder ReadFile(string fileName)
         {
             return new StringBuilder(System.IO.File.ReadAllText(fileName));
@@ -20,7 +25,8 @@ namespace CeazarCode
 
         public static StringBuilder ReadConsole()
         {
-            Console.Write("Скільки рядків тексту ви хочете ввести?");
+            Console.WriteLine(message);
+            Console.WriteLine(messageHowLine);
             int countLine = 0;
             try
             {
@@ -28,11 +34,12 @@ namespace CeazarCode
             }
             catch
             {
-                Console.WriteLine("Некоректне введення!!!");
-                return new StringBuilder("");
+                Console.WriteLine();
+                return new StringBuilder(messageError);
             }
 
-            Console.WriteLine("Введіть текст!!!");
+            Console.WriteLine(message);
+            Console.WriteLine(messageEnterText);
             StringBuilder result = new StringBuilder("");
             try
             {
@@ -43,7 +50,7 @@ namespace CeazarCode
             }
             catch
             {
-                Console.WriteLine("Некоректне введення!!!");
+                Console.WriteLine(messageError);
                 return new StringBuilder("");
             }
             return result;
@@ -51,6 +58,7 @@ namespace CeazarCode
 
         public static void WriteConsole(StringBuilder text)
         {
+            Console.WriteLine(message);
             Console.WriteLine(text.ToString());
         }
     }
