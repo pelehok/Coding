@@ -112,17 +112,17 @@ namespace CeazarCode
             if (resultMenuFile != null)
             {
                 CeazarCode ceazarCode = new CeazarCode();
-                int num = GerKeyMenu();
-                if (num != 0)
+                int? num = GerKeyMenu();
+                if (num != null)
                 {
                     StringBuilder result = null;
                     if (typeCoding == TypeCoding.ENCODING)
                     {
-                        result = ceazarCode.EncodingUA(resultMenuFile, num);
+                        result = ceazarCode.EncodingUA(resultMenuFile, (int)num);
                     }
                     else
                     {
-                        result = ceazarCode.DecodingUA(resultMenuFile, num);
+                        result = ceazarCode.DecodingUA(resultMenuFile, (int)num);
                     }
                     if (result != null)
                     {
@@ -158,7 +158,7 @@ namespace CeazarCode
             }
         }
 
-        private int GerKeyMenu()
+        private int? GerKeyMenu()
         {
             Console.WriteLine(message);
 
@@ -178,7 +178,7 @@ namespace CeazarCode
             catch
             {
                 Console.WriteLine(messageError);
-                return 0;
+                return null;
             }
         }
 
