@@ -8,10 +8,10 @@ namespace CeazarCode
 {
     static class HelperData
     {
-        private const string message = "*******************************************";
-        private const string messageError = "Некоректне введення!!!";
-        private const string messageEnterText = "Введiть текст!!!";
-        private const string messageHowLine = "Скiльки рядкiв тексту ви хочете ввести?";
+        private const string _message = "*******************************************";
+        private const string _messageError = "Некоректне введення!!!";
+        private const string _messageEnterText = "Введiть текст!!!";
+        private const string _messageHowLine = "Скiльки рядкiв тексту ви хочете ввести?";
 
         public static StringBuilder ReadFile(string fileName)
         {
@@ -25,8 +25,8 @@ namespace CeazarCode
 
         public static StringBuilder ReadConsole()
         {
-            Console.WriteLine(message);
-            Console.WriteLine(messageHowLine);
+            Console.WriteLine(_message);
+            Console.WriteLine(_messageHowLine);
             int countLine = 0;
             try
             {
@@ -35,11 +35,11 @@ namespace CeazarCode
             catch
             {
                 Console.WriteLine();
-                return new StringBuilder(messageError);
+                return new StringBuilder(_messageError);
             }
 
-            Console.WriteLine(message);
-            Console.WriteLine(messageEnterText);
+            Console.WriteLine(_message);
+            Console.WriteLine(_messageEnterText);
             StringBuilder result = new StringBuilder("");
             try
             {
@@ -50,7 +50,7 @@ namespace CeazarCode
             }
             catch
             {
-                Console.WriteLine(messageError);
+                Console.WriteLine(_messageError);
                 return new StringBuilder("");
             }
             return result;
@@ -58,7 +58,7 @@ namespace CeazarCode
 
         public static void WriteConsole(StringBuilder text)
         {
-            Console.WriteLine(message);
+            Console.WriteLine(_message);
             Console.WriteLine(text.ToString());
         }
     }

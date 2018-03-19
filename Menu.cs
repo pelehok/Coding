@@ -12,19 +12,29 @@ namespace CeazarCode
             "1.Закодувати текст",
             "2.Розкодувати текст",
             "3.Декодувати текст",
-            "4.Вихiд"};
+            "0.Вихiд"};
         private readonly string[] ITEMS_MENU_READING_TEXT = {
             "1.Зчитати текст з файлу",
             "2.Зчитати текст з консолi",
-            "3.Вихiд в головне меню"};
+            "0.Вихiд в головне меню"};
         private readonly string[] ITEMS_MENU_WRITE_TEXT = {
             "1.Записати отриманий текст у файлу",
             "2.Вивiд отриманий тексту на консолi",
-            "3.Вихiд в головне меню"};
+            "0.Вихiд в головне меню"};
+
+        private const int USER_SAY_ENCODE_TEXT = 1;
+        private const int USER_SAY_DECODE_TEXT = 2;
+        private const int USER_SAY_DECODEWITHOUTKEY_TEXT = 3;
+        private const int USER_SAY_EXIT_OR_BACK = 0;
+
+        private const int USER_SAY_READ_FILE = 1;
+        private const int USER_SAY_READ_CONSOLE = 2;
+
+        private const int USER_SAY_WRITE_FILE = 1;
+        private const int USER_SAY_WRITE_CONSOLE = 2;
 
         private const string messageWelcom = "Виберiть дiю";
         private const string messageError = "Неправильно введенi данi. Попробуйте ще раз";
-
         private const string messageFilePath = "Введiть шлях до файлу";
         private const string messageFileError = "Шлях до файлу некоректний або файлу не iснує";
         private const string messageSuccesfullFile = "Дiю виконано";
@@ -56,16 +66,16 @@ namespace CeazarCode
                         bool isExit = false;
                         switch (number)
                         {
-                            case 1:
+                            case USER_SAY_ENCODE_TEXT:
                                 EncodingItem();
                                 break;
-                            case 2:
+                            case USER_SAY_DECODE_TEXT:
                                 DecodingItem();
                                 break;
-                            case 3:
+                            case USER_SAY_DECODEWITHOUTKEY_TEXT:
                                 DecodingWithoutKeyItem();
                                 break;
-                            case 4:
+                            case USER_SAY_EXIT_OR_BACK:
                                 isExit = true;
                                 break;
                         }
@@ -88,42 +98,32 @@ namespace CeazarCode
 
         private void EncodingItem()
         {
-            StringBuilder resultMenuFile = ReadDataMenu();
-            if (resultMenuFile != null)
-            {
-                CeazarCode ceazarCode = new CeazarCode();
-                int num = GerKeyMenu();
-                if (num != 0)
-                {
-                    StringBuilder result = ceazarCode.EncodingUA(resultMenuFile, num);
-                    if (result != null)
-                    {
-                        WriteDataMenu(result);
-                    }
-                    else
-                    {
-                        Console.WriteLine(messageError);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine(messageError);
-                }
-            }
+            CodingItem(TypeCoding.ENCODING);
         }
 
         private void DecodingItem()
         {
+            CodingItem(TypeCoding.DECODING);
+        }
 
+        private void CodingItem(TypeCoding typeCoding)
+        {
             StringBuilder resultMenuFile = ReadDataMenu();
             if (resultMenuFile != null)
             {
                 CeazarCode ceazarCode = new CeazarCode();
-
                 int num = GerKeyMenu();
                 if (num != 0)
                 {
-                    StringBuilder result = ceazarCode.DecodingUA(resultMenuFile, num);
+                    StringBuilder result = null;
+                    if (typeCoding == TypeCoding.ENCODING)
+                    {
+                        result = ceazarCode.EncodingUA(resultMenuFile, num);
+                    }
+                    else
+                    {
+                        result = ceazarCode.DecodingUA(resultMenuFile, num);
+                    }
                     if (result != null)
                     {
                         WriteDataMenu(result);
@@ -166,7 +166,7 @@ namespace CeazarCode
             try
             {
                 int number = Int32.Parse(Console.ReadLine());
-                if (IsCorrect(number, CharUA.alfavitLength))
+                if (IsCorrect(number, CharUA.ABCLength))
                 {
                     return number;
                 }
@@ -200,11 +200,11 @@ namespace CeazarCode
                         bool isExit = false;
                         switch (number)
                         {
-                            case 1:
+                            case USER_SAY_READ_FILE:
                                 return ReadFileItem();
-                            case 2:
+                            case USER_SAY_READ_CONSOLE:
                                 return HelperData.ReadConsole();
-                            case 3:
+                            case USER_SAY_EXIT_OR_BACK:
                                 isExit = true;
                                 break;
                         }
@@ -281,14 +281,14 @@ namespace CeazarCode
                         bool isExit = false;
                         switch (number)
                         {
-                            case 1:
+                            case USER_SAY_WRITE_FILE:
                                 WriteFileItem(_inputText);
                                 isExit = true;
                                 break;
-                            case 2:
+                            case USER_SAY_WRITE_CONSOLE:
                                 HelperData.WriteConsole(_inputText);
                                 break;
-                            case 3:
+                            case USER_SAY_EXIT_OR_BACK:
                                 isExit = true;
                                 break;
                         }
@@ -311,7 +311,7 @@ namespace CeazarCode
 
         private bool IsCorrect(int number,int maxValue)
         {
-            if(number>0 && number <= maxValue)
+            if(number>=0 && number <= maxValue)
             {
                 return true;
             }

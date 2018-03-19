@@ -13,10 +13,17 @@ namespace CeazarCode
     class CeazarCode
     {
         private const string messageError = "Некоректне введення!!!";
-        private const string messageErrorLetter = "Error with letter ";
+        private const string messageErrorLetter = "Помилка в букві ";
         private const string messageIsCorrect = "Цей текст можна вважати коректним?";
         private const string messageYes = "1:Yes";
         private const string messageNo = "2:No";
+        private const int userSayYes = 1;
+        private const int userSayNo = 2;
+        private const int repeatAfterNoCorrectAns = 5;
+        private const int notCorrectValue = -1;
+        private const int sizePartText = 10;
+
+
         public string EncodingUK(string _inputText, int _key)
         {
             string outputString = "";
@@ -68,26 +75,26 @@ namespace CeazarCode
             StringBuilder res = null;
 
             char offerLetter = TextAnalysis.GetOffenLetter(_inputString);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < CharUA.loudLetterLenght; i++)
             {
                 int numbetween = CharUA.getNumBetweenLetter(offerLetter, CharUA.GetLoudLetter(i));
-                StringBuilder tempResult = DecodingUA(_inputString, numbetween);
-                StringBuilder partText = GetFirstTenLetter(tempResult);
-                if (CorrectText(partText))
+                StringBuilder partText = GetFirstPart(_inputString);
+                StringBuilder partTextResult = DecodingUA(partText, numbetween);
+                if (CorrectText(partTextResult))
                 {
-                    return tempResult;
+                    return DecodingUA(_inputString, numbetween);
                 }
             }
 
             return res;
         }
 
-        private StringBuilder MoveString(StringBuilder _inputSrting, int _key, TypeCoding typeCoding)
+        private StringBuilder MoveString(StringBuilder _inputSrting, int _key, TypeCoding _typeCoding)
         {
             StringBuilder outputString = new StringBuilder();
 
             int tempKey = _key;
-            if (typeCoding == TypeCoding.DECODING)
+            if (_typeCoding == TypeCoding.DECODING)
             {
                 tempKey = -_key;
             }
@@ -106,13 +113,13 @@ namespace CeazarCode
                         }
                         else
                         {
-                            if (typeCoding == TypeCoding.DECODING)
+                            if (_typeCoding == TypeCoding.DECODING)
                             {
-                                outputString.Append(CharUA.GetChar(CharUA.alfavitLength + tempKey));
+                                outputString.Append(CharUA.GetChar(CharUA.ABCLength + tempKey));
                             }
                             else
                             {
-                                outputString.Append(CharUA.GetChar(CharUA.alfavitLength - tempKey));
+                                outputString.Append(CharUA.GetChar(CharUA.ABCLength - tempKey));
                             }
                         }
                     }
@@ -126,9 +133,9 @@ namespace CeazarCode
             return outputString;
         }
 
-        private bool IsExist(int numberLetter)
+        private bool IsExist(int _numberLetter)
         {
-            if (numberLetter != -1)
+            if (_numberLetter != notCorrectValue)
             {
                 return true;
             } else
@@ -137,9 +144,9 @@ namespace CeazarCode
             }
         }
 
-        private bool IsCorrectNumber(int number)
+        private bool IsCorrectNumber(int _number)
         {
-            if (0 <= number && number < CharUA.alfavitLength)
+            if (0 <= _number && _number < CharUA.ABCLength)
             {
                 return true;
             }
@@ -161,10 +168,10 @@ namespace CeazarCode
                 try
                 {
                     int number = Int32.Parse(Console.ReadLine());
-                    if (number == 1)
+                    if (number == userSayYes)
                     {
                         return true;
-                    }else if(number == 2)
+                    }else if(number == userSayNo)
                     {
                         return false;
                     }
@@ -177,7 +184,7 @@ namespace CeazarCode
                 {
                     Console.WriteLine(messageError);
                     i++;
-                    if (i == 5)
+                    if (i == repeatAfterNoCorrectAns)
                     {
                         return false;
                     }
@@ -185,10 +192,10 @@ namespace CeazarCode
             }
         }
 
-        private static StringBuilder GetFirstTenLetter(StringBuilder _inputLetter)
+        private static StringBuilder GetFirstPart(StringBuilder _inputLetter)
         {
             StringBuilder tempInputString = new StringBuilder(_inputLetter.ToString());
-            return tempInputString.Remove(10, tempInputString.Length-10);
+            return tempInputString.Remove(sizePartText, tempInputString.Length- sizePartText);
         } 
     }
 }
