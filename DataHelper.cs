@@ -6,25 +6,22 @@ using System.Threading.Tasks;
 
 namespace CeazarCode
 {
-    static class HelperData
+    static class DataHelper
     {
         private const string _message = "*******************************************";
         private const string _messageError = "Некоректне введення!!!";
         private const string _messageEnterText = "Введiть текст!!!";
         private const string _messageHowLine = "Скiльки рядкiв тексту ви хочете ввести?";
 
-        public static StringBuilder ReadFile(string fileName)
-        {
+        public static StringBuilder ReadFile(string fileName){
             return new StringBuilder(System.IO.File.ReadAllText(fileName));
         }
 
-        public static void WriteFile(string fileName, StringBuilder text)
-        {
+        public static void WriteFile(string fileName, StringBuilder text){
             System.IO.File.WriteAllText(fileName, text.ToString());
         }
 
-        public static StringBuilder ReadConsole()
-        {
+        public static StringBuilder ReadConsole(){
             Console.WriteLine(_message);
             Console.WriteLine(_messageHowLine);
             int countLine = 0;
@@ -53,11 +50,11 @@ namespace CeazarCode
                 Console.WriteLine(_messageError);
                 return new StringBuilder("");
             }
+
             return result;
         }
 
-        public static void WriteConsole(StringBuilder text)
-        {
+        public static void WriteConsole(StringBuilder text){
             Console.WriteLine(_message);
             Console.WriteLine(text.ToString());
         }

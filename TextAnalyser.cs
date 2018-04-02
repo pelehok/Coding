@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CeazarCode
 {
     
-    static class TextAnalysis
+    static class TextAnalyser
     {
         private struct LetterWithFrequensy
         {
-            public char letter { get; set; }
-            public int count { get; set; }
-            public LetterWithFrequensy(char _letter, int _count)
+            public char Letter { get; set; }
+            public int Count { get; set; }
+            public LetterWithFrequensy(char letter, int count)
             {
-                letter = _letter;
-                count = _count;
+                this.Letter = letter;
+                this.Count = count;
             }
         };
 
@@ -27,12 +25,12 @@ namespace CeazarCode
             List<char> textList = textToString.ToList();
 
             List<LetterWithFrequensy> letterFrequency = GetLetterFrequency(textList);
-            letterFrequency.Sort((p, g) => p.count.CompareTo(g.count));
+            letterFrequency.Sort((p, g) => p.Count.CompareTo(g.Count));
 
-            return letterFrequency.Last().letter;
+            return letterFrequency.Last().Letter;
         }
 
-        private static int GetCountRepeat(char letter, List<char> text)
+        private static int GetRepeatCount(char letter, List<char> text)
         {
             int count = 0;
             for(int i = 0; i < text.Count; i++)
@@ -46,14 +44,14 @@ namespace CeazarCode
             return count;
         }
 
-        private static List<LetterWithFrequensy> GetLetterFrequency(List<char> _text)
+        private static List<LetterWithFrequensy> GetLetterFrequency(List<char> text)
         {
-            List<char> currenttext = new List<char>(_text);
+            List<char> currenttext = new List<char>(text);
 
             List<LetterWithFrequensy> resFreq = new List<LetterWithFrequensy>();
             for (int i=0; i < currenttext.Count; i++)
             {
-                resFreq.Add(new LetterWithFrequensy(currenttext[i], GetCountRepeat(currenttext[i], currenttext)));
+                resFreq.Add(new LetterWithFrequensy(currenttext[i], GetRepeatCount(currenttext[i], currenttext)));
             }
 
             return resFreq;

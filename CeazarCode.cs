@@ -8,145 +8,132 @@ namespace CeazarCode
 {
     enum TypeCoding
     {
-        ENCODING, DECODING
+        ENCODING,
+        DECODING
     };
+
     class CeazarCode
     {
-        private const string messageError = "Некоректне введення!!!";
-        private const string messageErrorLetter = "Помилка в букві ";
-        private const string messageIsCorrect = "Цей текст можна вважати коректним?";
-        private const string messageYes = "1:Yes";
-        private const string messageNo = "2:No";
-        private const int userSayYes = 1;
-        private const int userSayNo = 2;
-        private const int repeatAfterNoCorrectAns = 5;
-        private const int notCorrectValue = -1;
-        private const int sizePartText = 10;
+        private const string _messageError = "Некоректне введення!!!";
+        private const string _messageErrorLetter = "Помилка в букві ";
+        private const string _messageIsCorrect = "Цей текст можна вважати коректним?";
+        private const string _messageYes = "1:Так";
+        private const string _messageNo = "2:Ні";
+        private const int _userSayYes = 1;
+        private const int _userSayNo = 2;
+        private const int _repeatAfterNoCorrectAns = 5;
+        private const int _notCorrectValue = -1;
+        private const int _sizePartText = 10;
 
 
-        public string EncodingUK(string _inputText, int _key)
-        {
+        public string EncodingUK(string inputText, int key){
             string outputString = "";
-            for (int i = 0; i < _inputText.Length; i++)
+            for (int i = 0; i < inputText.Length; i++)
             {
-                if (Char.IsLetter(_inputText[i]))
+                if (Char.IsLetter(inputText[i]))
                 {
-                    int temp = (int)_inputText[i] + _key;
-                    outputString += (char)(temp);
+                    int temp = (int) inputText[i] + key;
+                    outputString += (char) (temp);
                 }
                 else
                 {
-                    outputString += _inputText[i];
+                    outputString += inputText[i];
                 }
             }
+
             return outputString;
         }
 
-        public string DecodingUK(string _inputText, int _key)
-        {
+        public string DecodingUK(string inputText, int key){
             string outputString = "";
-            for (int i = 0; i < _inputText.Length; i++)
+            for (int i = 0; i < inputText.Length; i++)
             {
-                if (Char.IsLetter(_inputText[i]))
+                if (Char.IsLetter(inputText[i]))
                 {
-                    int temp = (int)_inputText[i] - _key;
-                    outputString += (char)(temp);
+                    int temp = (int) inputText[i] - key;
+                    outputString += (char) (temp);
                 }
                 else
                 {
-                    outputString += _inputText[i];
+                    outputString += inputText[i];
                 }
             }
+
             return outputString;
         }
 
-        public StringBuilder EncodingUA(StringBuilder _inputText, int _key)
-        {
-            return MoveString(_inputText, _key, TypeCoding.ENCODING);
+        public StringBuilder EncodingUA(StringBuilder inputText, int key){
+            return MoveString(inputText, key, TypeCoding.ENCODING);
         }
 
-        public StringBuilder DecodingUA(StringBuilder _inputText, int _key)
-        {
-            return MoveString(_inputText, _key, TypeCoding.DECODING);
+        public StringBuilder DecodingUA(StringBuilder inputText, int key){
+            return MoveString(inputText, key, TypeCoding.DECODING);
         }
 
-        public StringBuilder DecodingWithoutKey(StringBuilder _inputString)
-        {
+        public StringBuilder DecodingWithoutKey(StringBuilder inputString){
             StringBuilder res = null;
 
-            char offerLetter = TextAnalysis.GetOffenLetter(_inputString);
-            for (int i = 0; i < CharUA.loudLetterLenght; i++)
+            char offerLetter = TextAnalyser.GetOffenLetter(inputString);
+            for (int i = 0; i < UA_Alphabet.LoudLetterLenght; i++)
             {
-                int numbetween = CharUA.getNumBetweenLetter(offerLetter, CharUA.GetLoudLetter(i));
-                StringBuilder partText = GetFirstPart(_inputString);
+                int numbetween = UA_Alphabet.GetNumBetweenLetter(offerLetter, UA_Alphabet.GetLoudLetter(i));
+                StringBuilder partText = GetFirstPart(inputString);
                 StringBuilder partTextResult = DecodingUA(partText, numbetween);
                 if (CorrectText(partTextResult))
                 {
-                    return DecodingUA(_inputString, numbetween);
+                    return DecodingUA(inputString, numbetween);
                 }
             }
 
             return res;
         }
 
-        private StringBuilder MoveString(StringBuilder _inputSrting, int _key, TypeCoding _typeCoding)
-        {
+        private StringBuilder MoveString(StringBuilder inputSrting, int key, TypeCoding typeCoding){
             StringBuilder outputString = new StringBuilder();
 
-            int tempKey = _key;
-            if (_typeCoding == TypeCoding.DECODING)
+            int tempKey = key;
+            if (typeCoding == TypeCoding.DECODING)
             {
-                tempKey = -_key;
+                tempKey = -key;
             }
 
-            for (int i = 0; i < _inputSrting.Length; i++)
+            for (int i = 0; i < inputSrting.Length; i++)
             {
-                if (Char.IsLetter(_inputSrting[i]))
+                if (Char.IsLetter(inputSrting[i]))
                 {
-                    int temp = CharUA.GetNumber(_inputSrting[i]);
-                    if (IsExist(temp))
+                    int temp = UA_Alphabet.GetNumber(inputSrting[i]);
+                    if (Exist(temp))
                     {
                         temp += tempKey;
                         if (IsCorrectNumber(temp))
                         {
-                            outputString.Append(CharUA.GetChar(temp));
+                            outputString.Append(UA_Alphabet.GetChar(temp));
                         }
                         else
                         {
-                            if (_typeCoding == TypeCoding.DECODING)
+                            if (typeCoding == TypeCoding.DECODING)
                             {
-                                outputString.Append(CharUA.GetChar(CharUA.ABCLength + tempKey));
+                                outputString.Append(UA_Alphabet.GetChar(UA_Alphabet.AlphabetLength + tempKey));
                             }
                             else
                             {
-                                outputString.Append(CharUA.GetChar(CharUA.ABCLength - tempKey));
+                                outputString.Append(UA_Alphabet.GetChar(UA_Alphabet.AlphabetLength - tempKey));
                             }
                         }
                     }
                     else
                     {
-                        outputString = new StringBuilder(messageErrorLetter + _inputSrting[i]);
+                        outputString = new StringBuilder(_messageErrorLetter + inputSrting[i]);
                         return null;
                     }
                 }
             }
+
             return outputString;
         }
 
-        private bool IsExist(int _numberLetter)
-        {
-            if (_numberLetter != notCorrectValue)
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
-
-        private bool IsCorrectNumber(int _number)
-        {
-            if (0 <= _number && _number < CharUA.ABCLength)
+        private bool Exist(int numberLetter){
+            if (numberLetter != _notCorrectValue)
             {
                 return true;
             }
@@ -156,35 +143,46 @@ namespace CeazarCode
             }
         }
 
-        private bool CorrectText(StringBuilder _inputString)
-        {
+        private bool IsCorrectNumber(int number){
+            if (0 <= number && number < UA_Alphabet.AlphabetLength)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool CorrectText(StringBuilder inputString){
             int i = 0;
-            Console.WriteLine(_inputString);
-            Console.WriteLine(messageIsCorrect);
-            Console.WriteLine(messageYes);
-            Console.WriteLine(messageNo);
+            Console.WriteLine(inputString);
+            Console.WriteLine(_messageIsCorrect);
+            Console.WriteLine(_messageYes);
+            Console.WriteLine(_messageNo);
             while (true)
             {
                 try
                 {
                     int number = Int32.Parse(Console.ReadLine());
-                    if (number == userSayYes)
+                    if (number == _userSayYes)
                     {
                         return true;
-                    }else if(number == userSayNo)
+                    }
+                    else if (number == _userSayNo)
                     {
                         return false;
                     }
                     else
                     {
-                        new Exception();
+                        throw new Exception();
                     }
                 }
                 catch
                 {
-                    Console.WriteLine(messageError);
+                    Console.WriteLine(_messageError);
                     i++;
-                    if (i == repeatAfterNoCorrectAns)
+                    if (i == _repeatAfterNoCorrectAns)
                     {
                         return false;
                     }
@@ -192,10 +190,9 @@ namespace CeazarCode
             }
         }
 
-        private static StringBuilder GetFirstPart(StringBuilder _inputLetter)
-        {
-            StringBuilder tempInputString = new StringBuilder(_inputLetter.ToString());
-            return tempInputString.Remove(sizePartText, tempInputString.Length- sizePartText);
-        } 
+        private static StringBuilder GetFirstPart(StringBuilder inputLetter){
+            StringBuilder tempInputString = new StringBuilder(inputLetter.ToString());
+            return tempInputString.Remove(_sizePartText, tempInputString.Length - _sizePartText);
+        }
     }
 }
